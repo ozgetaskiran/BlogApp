@@ -17,7 +17,7 @@ exports.create = (req, res) => {
             message: "Invalid publisher id."
         });
     }
-
+    
     User.findById(req.body.publisherId)
     .then((user)=> {
         if(!user){
