@@ -31,9 +31,13 @@ app.get('/', (req, res) => {
     res.json({"message": "Welcome to Rapsodo Blod application."});
 });
 
-// Require Notes routes
+// Require user routes
 const users = require('./app/routes/user.routes.js');
 app.use('/api/1.0/users', users);
+
+// Require post routes
+const posts = require('./app/routes/post.routes.js');
+app.use('/api/1.0/posts', posts);
 
 
 // listen for requests
