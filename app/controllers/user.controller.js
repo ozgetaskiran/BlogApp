@@ -1,5 +1,6 @@
 const User = require('../models/user.model.js');
 const Follow = require('../models/follow.model.js');
+const Post = require('../models/post.model.js');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 
@@ -115,3 +116,37 @@ exports.removeFollowee = (req, res) => {
     });
 
 };
+
+//get posts of the the user identified by userId in the request
+exports.getPosts = (req, res) => {
+    var userId = req.params.userId;
+
+    if (!ObjectId.isValid(userId)) {
+        return res.status(400).send({
+            message: "Invalid user id."
+        });
+    }
+
+    var userFound = false;
+    User.findById(userId, function (err, data) {}).then(data => {
+        if(!data) {
+            res.status(404).send({
+                message: "User not found."
+            });
+        }else{
+            Post.find({'publisherId': userId}, function(err, posts) {
+                if (err) {
+                    onErr(err, callback);
+                } else {;
+                    res.status(200).send(posts);
+                }
+            });
+        }
+    }).catch(function (err) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
+    });
+}

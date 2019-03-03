@@ -11,4 +11,6 @@ router.put('/:userId/followees', users.addFollowee);
 // Unfollow a User
 router.delete('/:userId/followees/:followeeId', users.removeFollowee);
 
+router.get('/:userId/posts', users.getPosts);
+
 module.exports = router;
