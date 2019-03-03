@@ -6,7 +6,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 // Create a new user
 exports.create = (req, res) => {
     if(!req.body.name || !req.body.email || !req.body.password){
-        return res.status(422).send({
+        return res.status(400).send({
             message: "Missing user information."
         });
     }
@@ -19,7 +19,7 @@ exports.create = (req, res) => {
 
     user.save()
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         }).catch(err=> {
         res.status(500).send({
             message: err.message
@@ -34,42 +34,50 @@ exports.addFollowee = (req, res) => {
     var followerId = req.params.userId;
     var followeeId = req.body.followeeId;
 
-    User.findById(followerId, function (err, data) {
-        if(err) {
-            res.status(500).send({
-                message: err.message
-            });
-        }else if(!data){
-            res.status(404).send({
-                message: "User not found."
-            });
-        }
-    });
-
-    if(!followeeId){
+    if (!ObjectId.isValid(followerId)) {
         return res.status(400).send({
-            message: "Missing followeeId."
-        });
-    }else if(!ObjectId.isValid(followeeId)){
-        return res.status(400).send({
-            message: "Invalid followee id."
+            message: "Invalid user id."
         });
     }
 
-    const follow = new Follow({
-        followerId : followerId,
-        followeeId : followeeId
-    });
+    var userFound = false;
+    User.findById(followerId, function (err, data) {}).then(data => {
+        if(!data) {
+            res.status(404).send({
+                message: "User not found."
+            });
+        }else{
+            if (!followeeId) {
+                res.status(400).send({
+                    message: "Missing followeeId."
+                });
+            } else if (!ObjectId.isValid(followeeId)) {
+                res.status(400).send({
+                    message: "Invalid followee id."
+                });
+            }
+            const follow = new Follow({
+                followerId: followerId,
+                followeeId: followeeId
+            });
 
-    follow.save()
-        .then(data => {
-            res.send(data);
-        }).catch(err=> {
-        res.status(500).send({
-            message: err.message
-        });
+            follow.save()
+                .then(data => {
+                    res.status(204).send(data);
+                }).catch(err => {
+                res.status(500).send({
+                    message: err.message
+                });
+            });
+        }
+    }).catch(function (error) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
     });
-};
+}
 
 // Remove followee identified by followeeId in the request from the user with userId in the request
 exports.removeFollowee = (req, res) => {
