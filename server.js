@@ -39,10 +39,6 @@ app.use('/api/1.0/users', users);
 const posts = require('./app/routes/post.routes.js');
 app.use('/api/1.0/posts', posts);
 
-// Require post routes
-const posts = require('./app/routes/post.routes.js');
-app.use('/api/1.0/posts', posts);
-
 
 // listen for requests
 app.listen(3000, () => {
