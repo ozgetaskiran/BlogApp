@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
 const users = require('./app/routes/user.routes.js');
 app.use('/api/1.0/users', users);
 
+//Require post routes
+const posts = require('./app/routes/post.routes.js');
+app.use('/api/1.0/posts', posts);
+
 // Require post routes
 const posts = require('./app/routes/post.routes.js');
 app.use('/api/1.0/posts', posts);
