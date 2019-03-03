@@ -9,6 +9,6 @@ router.post('/', users.create);
 router.put('/:userId/followees', users.addFollowee);
 
 // Unfollow a User
-router.put('/:userId/followees/:followeeId', users.removeFollowee);
+router.delete('/:userId/followees/:followeeId', users.removeFollowee);
 
 module.exports = router;
