@@ -1,5 +1,4 @@
 const User = require('../models/user.model.js');
-const Follow = require('../models/follow.model.js');
 const Post = require('../models/post.model.js');
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -44,6 +43,5 @@ exports.create = (req, res) => {
     }).catch(function(error) {
         console.log(error);
     });
-
-
 };
+

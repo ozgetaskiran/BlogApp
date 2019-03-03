@@ -117,7 +117,7 @@ exports.removeFollowee = (req, res) => {
 
 };
 
-//get posts of the the user identified by userId in the request
+//get posts of the user identified by userId in the request
 exports.getPosts = (req, res) => {
     var userId = req.params.userId;
 
@@ -149,4 +149,53 @@ exports.getPosts = (req, res) => {
             });
         }
     });
-}
+};
+
+//get public posts of the followees the user identified by userId in the request
+exports.getFolloweePosts=(req, res) => {
+    var userId = req.params.userId;
+
+    if (!ObjectId.isValid(userId)) {
+        return res.status(400).send({
+            message: "Invalid user id."
+        });
+    }
+
+    var userFound = false;
+    User.findById(userId, function (err, data) {}).then(data => {
+        if(!data) {
+            res.status(404).send({
+                message: "User not found."
+            });
+        }else{
+            Follow.find({'followerId': userId},"followeeId", function(err, followees) {
+                if (err) {
+                    res.status(500).send({
+                        message: err.message
+                    });
+                } else {
+                    var followeeIds = [];
+                    for (l in followees) {
+                        followeeIds.push(followees[l].followeeId);
+                    }
+                    Post.find({'publisherId': { $in: followeeIds }, 'private' : true}, function(err, posts) {
+                        if (err) {
+                            res.status(500).send({
+                                message: err.message
+                            });
+                        } else {
+                            res.status(200).send(posts);
+                        }
+                    });
+                }
+            });
+        }
+    }).catch(function (err) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
+    });
+
+};
