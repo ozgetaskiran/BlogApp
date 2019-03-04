@@ -60,6 +60,10 @@ app.use('/api/1.0/users', users);
 const posts = require('./app/routes/post.routes.js');
 app.use('/api/1.0/posts', posts);
 
+//Require auth routes
+const auth = require('./app/routes/auth.routes.js');
+app.use('/api/1.0/auth', auth);
+
 
 
 // listen for requests

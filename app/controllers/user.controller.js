@@ -2,6 +2,7 @@ const User = require('../models/user.model.js');
 const Follow = require('../models/follow.model.js');
 const Post = require('../models/post.model.js');
 const ObjectId = require('mongoose').Types.ObjectId;
+const bcrypt = require('bcrypt');
 
 
 // Create a new user
@@ -18,14 +19,21 @@ exports.create = (req, res) => {
         email : req.body.email
     });
 
-    user.save()
-        .then(data => {
-            res.status(201).send(data);
-        }).catch(err=> {
-        res.status(500).send({
-            message: err.message
+    bcrypt.hash(user.password, 10, function (err, hash) {
+        if (err) {
+            return next(err);
+        }
+        user.password = hash;
+        user.save()
+            .then(data => {
+                res.status(201).send(data);
+            }).catch(err=> {
+            res.status(500).send({
+                message: err.message
+            });
         });
-    });
+    })
+
 
 };
 
