@@ -5,6 +5,9 @@ const router = express.Router();
 // Create a new User
 router.post('/', users.create);
 
+// Get user list
+router.get('/', users.list);
+
 // Follow a User
 router.put('/:userId/followees', users.addFollowee);
 

@@ -1,0 +1,21 @@
+<!doctype html>
+<html ng-app="blog">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="index.js"></script>
+    <title>User List</title>
+</head>
+<body ng-controller="mainController as mc">
+<div >
+    <ul ng-repeat="user in users">
+        <li>
+            <div>
+                <a href="#">{{user.name}}</a>
+                <button type="button">Takip et</button>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -29,6 +29,24 @@ exports.create = (req, res) => {
 
 };
 
+exports.list = (req, res) => {
+    User.find({}, function (err, data) {}).then(data => {
+        if(!data) {
+            res.status(200).send({
+                message: "No users."
+            });
+        }else {
+            res.status(200).send(data);
+        }
+    }).catch(function (err) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
+    });
+};
+
 
 // Add followee to the user indentified by userId in the request
 exports.addFollowee = (req, res) => {
