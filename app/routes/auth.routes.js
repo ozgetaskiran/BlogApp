@@ -3,6 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 // User authentication
-router.get('/', auth.authenticate);
+router.post('/', auth.authenticate);
 
 module.exports = router;

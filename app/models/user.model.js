@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+mongoose.set('useCreateIndex', true);
 const UserSchema = mongoose.Schema({
     email: {
         type: String,
