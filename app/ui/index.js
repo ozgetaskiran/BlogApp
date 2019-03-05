@@ -40,3 +40,25 @@ blog.controller('loginController', function ($scope, $http, $window) {
     };
 
 });
+
+blog.controller('registrationController', function ($scope, $http, $window) {
+
+    $scope.postdata = function () {
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:3000/api/1.0/users',
+            data: {name: $scope.name, email: $scope.email, password: $scope.password}
+        }).then(function (data){
+            if (data.data) {
+                $scope.msg = "Post Data Submitted Successfully!"
+                console.log(data.data);
+            }
+            $window.location = "login.html"
+        },function (error){
+            console.log('Error: ' + error);
+        });
+
+    };
+
+});
