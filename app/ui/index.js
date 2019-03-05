@@ -21,7 +21,7 @@ blog.controller("mainController", function($scope, $http){
 
 blog.controller('loginController', function ($scope, $http, $window) {
 
-    $scope.postdata = function (email, password) {
+    $scope.postdata = function () {
 
         $http({
             method: 'POST',
