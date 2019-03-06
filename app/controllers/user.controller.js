@@ -7,16 +7,16 @@ const bcrypt = require('bcrypt');
 
 // Create a new user
 exports.create = (req, res) => {
-    if(!req.body.name || !req.body.email || !req.body.password){
+    if (!req.body.name || !req.body.email || !req.body.password) {
         return res.status(400).send({
             message: "Missing user information."
         });
     }
 
     const user = new User({
-        name : req.body.name,
-        password : req.body.password,
-        email : req.body.email
+        name: req.body.name,
+        password: req.body.password,
+        email: req.body.email
     });
 
     bcrypt.hash(user.password, 10, function (err, hash) {
@@ -27,7 +27,7 @@ exports.create = (req, res) => {
         user.save()
             .then(data => {
                 res.status(201).send(data);
-            }).catch(err=> {
+            }).catch(err => {
             res.status(500).send({
                 message: err.message
             });
@@ -38,12 +38,13 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
-    User.find({}, function (err, data) {}).then(data => {
-        if(!data) {
+    User.find({}, function (err, data) {
+    }).then(data => {
+        if (!data) {
             res.status(200).send({
                 message: "No users."
             });
-        }else {
+        } else {
             res.status(200).send(data);
         }
     }).catch(function (err) {
@@ -68,12 +69,13 @@ exports.addFollowee = (req, res) => {
     }
 
     var userFound = false;
-    User.findById(followerId, function (err, data) {}).then(data => {
-        if(!data) {
+    User.findById(followerId, function (err, data) {
+    }).then(data => {
+        if (!data) {
             res.status(404).send({
                 message: "User not found."
             });
-        }else{
+        } else {
             if (!followeeId) {
                 res.status(400).send({
                     message: "Missing followeeId."
@@ -112,27 +114,28 @@ exports.removeFollowee = (req, res) => {
     var followerId = req.params.userId;
     var followeeId = req.params.followeeId;
 
-    if(!ObjectId.isValid(followerId)){
+    if (!ObjectId.isValid(followerId)) {
         return res.status(400).send({
             message: "Invalid user id."
         });
     }
 
     User.findById(followerId, function (err, data) {
-        if(err) {
+        if (err) {
             res.status(500).send({
                 message: err.message
             });
-        }else if(!data){
+        } else if (!data) {
             res.status(404).send({
                 message: "User not found."
             });
-        }else{
-            Follow.deleteOne({ followerId : followerId, followeeId : followeeId}, function(err){
-                if (err){
+        } else {
+            Follow.deleteOne({followerId: followerId, followeeId: followeeId}, function (err) {
+                if (err) {
                     res.status(500).send({
-                        message: err.message});
-                }else{
+                        message: err.message
+                    });
+                } else {
                     res.status(204).send();
                 }
 
@@ -154,16 +157,18 @@ exports.getPosts = (req, res) => {
     }
 
     var userFound = false;
-    User.findById(userId, function (err, data) {}).then(data => {
-        if(!data) {
+    User.findById(userId, function (err, data) {
+    }).then(data => {
+        if (!data) {
             res.status(404).send({
                 message: "User not found."
             });
-        }else{
-            Post.find({'publisherId': userId}, function(err, posts) {
+        } else {
+            Post.find({'publisherId': userId}, function (err, posts) {
                 if (err) {
                     onErr(err, callback);
-                } else {;
+                } else {
+                    ;
                     res.status(200).send(posts);
                 }
             });
@@ -178,7 +183,7 @@ exports.getPosts = (req, res) => {
 };
 
 //get public posts of the followees the user identified by userId in the request
-exports.getFolloweePosts=(req, res) => {
+exports.getFolloweePosts = (req, res) => {
     var userId = req.params.userId;
 
     if (!ObjectId.isValid(userId)) {
@@ -188,13 +193,14 @@ exports.getFolloweePosts=(req, res) => {
     }
 
     var userFound = false;
-    User.findById(userId, function (err, data) {}).then(data => {
-        if(!data) {
+    User.findById(userId, function (err, data) {
+    }).then(data => {
+        if (!data) {
             res.status(404).send({
                 message: "User not found."
             });
-        }else{
-            Follow.find({'followerId': userId},"followeeId", function(err, followees) {
+        } else {
+            Follow.find({'followerId': userId}, "followeeId", function (err, followees) {
                 if (err) {
                     res.status(500).send({
                         message: err.message
@@ -204,7 +210,7 @@ exports.getFolloweePosts=(req, res) => {
                     for (l in followees) {
                         followeeIds.push(followees[l].followeeId);
                     }
-                    Post.find({'publisherId': { $in: followeeIds }, 'private' : true}, function(err, posts) {
+                    Post.find({'publisherId': {$in: followeeIds}, 'private': true}, function (err, posts) {
                         if (err) {
                             res.status(500).send({
                                 message: err.message

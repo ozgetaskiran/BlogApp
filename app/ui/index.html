@@ -1,15 +1,26 @@
 <!doctype html>
 <html ng-app="blog">
 <head>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="index.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $("#current-user").html(sessionStorage.getItem('currentUserName'));
+        });
+    </script>
+
     <title>User List</title>
 </head>
 <body ng-controller="mainController as mc">
-<div >
-    <ul ng-repeat="user in users">
-        <li>
+<div>
+    <h1>Hey <span id="current-user"></span>!</h1><br/>
+    <h2>{{$scope.currentUserId}}</h2>
+    <ul>
+        <li ng-repeat="user in users" ng-class="{displaynone : user._id === sessionStorage.getItem('currentUserName')}">
             <div>
                 <a href="#">{{user.name}}</a>
                 <button type="button">Takip et</button>

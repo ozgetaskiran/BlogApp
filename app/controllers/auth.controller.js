@@ -2,18 +2,18 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user.model.js');
 
 // Create a new user
-exports.authenticate  = (req, res) => {
+exports.authenticate = (req, res) => {
 
-    if(!req.body.email || !req.body.password){
+    if (!req.body.email || !req.body.password) {
         return res.status(400).send({
             message: "Missing user information."
         });
     }
 
     const password = req.body.password;
-    const email =  req.body.email;
+    const email = req.body.email;
 
-    User.findOne({ email: email })
+    User.findOne({email: email})
         .exec(function (err, user) {
             if (err) {
                 return callback(err)
