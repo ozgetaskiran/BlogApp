@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
-    User.find({}, function (err, data) {
+    User.find({/*_id : {$nin : [req.session.id]}*/}, function (err, data) {
     }).then(data => {
         if (!data) {
             res.status(200).send({
@@ -110,7 +110,6 @@ exports.addFollowee = (req, res) => {
 
 // Remove followee identified by followeeId in the request from the user with userId in the request
 exports.removeFollowee = (req, res) => {
-
     var followerId = req.params.userId;
     var followeeId = req.params.followeeId;
 
@@ -168,8 +167,7 @@ exports.getPosts = (req, res) => {
                 if (err) {
                     onErr(err, callback);
                 } else {
-                    ;
-                    res.status(200).send(posts);
+                    return res.status(200).send(posts);
                 }
             });
         }
@@ -210,7 +208,7 @@ exports.getFolloweePosts = (req, res) => {
                     for (l in followees) {
                         followeeIds.push(followees[l].followeeId);
                     }
-                    Post.find({'publisherId': {$in: followeeIds}, 'private': true}, function (err, posts) {
+                    Post.find({'publisherId': {$in: followeeIds}, 'private': false}, function (err, posts) {
                         if (err) {
                             res.status(500).send({
                                 message: err.message
@@ -230,4 +228,72 @@ exports.getFolloweePosts = (req, res) => {
         }
     });
 
+};
+
+exports.getFollowees = (req, res) => {
+    var followerId = req.params.userId;
+
+    Follow.find({followerId: followerId}, function (err, followees) {
+    }).then(followees => {
+        if (!followees) {
+            res.status(200).send({
+                message: "No users."
+            });
+        } else {
+            var followeeIds = [];
+            for (l in followees) {
+                followeeIds.push(followees[l].followeeId);
+            }
+
+            User.find({'_id': {$in: followeeIds}}, function (err, users) {
+                if (err) {
+                    res.status(500).send({
+                        message: err.message
+                    });
+                } else {
+                    res.status(200).send(users);
+                }
+            });
+        }
+    }).catch(function (err) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
+    });
+};
+
+exports.getSuggestions = (req, res) => {
+    var followerId = req.params.userId;
+
+    Follow.find({followerId: followerId}, function (err, followees) {
+    }).then(followees => {
+        if (!followees) {
+            res.status(200).send({
+                message: "No users."
+            });
+        } else {
+            var followeeIds = [];
+            for (l in followees) {
+                followeeIds.push(followees[l].followeeId);
+            }
+
+            User.find({'_id': {$nin: followeeIds}}, function (err, users) {
+                if (err) {
+                    res.status(500).send({
+                        message: err.message
+                    });
+                } else {
+                    res.status(200).send(users);
+                }
+            });
+        }
+    }).catch(function (err) {
+        if (err) {
+            res.status(500).send({
+                message: err.message
+            });
+        }
+    });
 };

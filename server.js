@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+//const session = require('express-session');
+
 // create express app
 const app = express();
 
@@ -23,14 +25,27 @@ app.use(function (req, res, next) {
     next();
 });
 
+/*
+app.use(session({
+    secret: "hkerh345kjl345l345ljlj",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        path    : '/',
+        httpOnly: false,
+        maxAge  : 24*60*60*1000
+    }
+}));
+*/
+
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
 
 app.get('/login.html', function (req, res) {
-    res.sendFile( __dirname + "/" + "login.html" );
+    res.sendFile(__dirname + "/" + "login.html");
 })
 
 // Configuring the database
@@ -55,7 +70,6 @@ app.get('/', (req, res) => {
 });
 
 
-
 // Require user routes
 const users = require('./app/routes/user.routes.js');
 app.use('/api/1.0/users', users);
@@ -67,7 +81,6 @@ app.use('/api/1.0/posts', posts);
 //Require auth routes
 const auth = require('./app/routes/auth.routes.js');
 app.use('/api/1.0/auth', auth);
-
 
 
 // listen for requests

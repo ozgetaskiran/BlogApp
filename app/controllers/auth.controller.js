@@ -22,9 +22,10 @@ exports.authenticate = (req, res) => {
                 err.status = 401;
                 return callback(err);
             }
+
             bcrypt.compare(password, user.password, function (err, result) {
                 if (result === true) {
-                    return res.status(201).send(user);
+                    return res.status(200).send(user);
                 } else {
                     return res.status(401).send({
                         message: "Unauthorized user."

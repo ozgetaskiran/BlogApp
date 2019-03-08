@@ -1,0 +1,45 @@
+<!doctype html>
+<html ng-app="blog">
+<head>
+    <link rel="stylesheet" type="text/css" href="./stylesheet/index.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="index.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $("#current-user").html(sessionStorage.getItem('currentUserName'));
+        });
+    </script>
+
+    <title>My Followees</title>
+</head>
+<body ng-controller="followeesController">
+<div>
+    <div>
+        <div class="floatleft">
+            <img class="imgclass" src="./img/profile.png">
+        </div>
+        <div>
+            <span class="bold">Merhaba </span><a id="current-user" href="home.html" class="bold"></a><br/>
+        </div>
+    </div>
+    <div>
+        <span class="header">My Followees</span>
+        <ul class="ulclass">
+            <li ng-repeat="followee in followees" class="liclass">
+                <div class="clearfix">
+                    <div class="floatleft">
+                        <img class="imgclass" src="./img/user.jpg">
+                    </div>
+                    <div class="div2">
+                        <span><b>{{followee.name}}</b></span><br/>
+                        <button ng-click="unfollow(followee._id)">Unfollow</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

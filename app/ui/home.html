@@ -1,0 +1,61 @@
+<!doctype html>
+<html ng-app="blog">
+<head>
+    <link rel="stylesheet" type="text/css" href="./stylesheet/index.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="index.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $("#current-user").html(sessionStorage.getItem('currentUserName'));
+        });
+    </script>
+
+    <title>Home</title>
+</head>
+<body ng-controller="mainController as mc">
+<div>
+    <div class="header">
+        Hey, <span id="current-user"></span>!</h1><br/><br/>
+    </div>
+    <div>
+        <ul class="ulclass">
+            <li class="liclass">
+                    <div class="floatleft">
+                        <img class="imgclass" src="./img/post.png">
+                    </div>
+                    <div class="header">
+                        <a href="myposts.html">My Posts</a><br/>
+                    </div>
+            </li>
+            <li class="liclass">
+                <div class="floatleft">
+                    <img class="imgclass" src="./img/post.jpg">
+                </div>
+                <div class="header">
+                    <a href="followeeposts.html">Followees' Posts</a><br/>
+                </div>
+            </li>
+            <li class="liclass">
+                <div class="floatleft">
+                    <img class="imgclass" src="./img/followees.jpg">
+                </div>
+                <div class="header">
+                    <a href="followees.html">Followees</a><br/>
+                </div>
+            </li>
+            <li class="liclass">
+                <div class="floatleft">
+                    <img class="imgclass" src="./img/others.png">
+                </div>
+                <div class="header">
+                    <a href="suggestions.html">Suggestions</a><br/>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

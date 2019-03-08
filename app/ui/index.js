@@ -2,13 +2,9 @@ var blog = angular.module("blog", []);
 
 blog.controller("mainController", function ($scope, $http) {
     $scope.formData = {};
-    console.log(sessionStorage.getItem('currentUserName'));
     $http({
         method: 'GET',
-        url: 'http://localhost:3000/api/1.0/users',
-        data: {
-            loginUserId: sessionStorage.getItem('currentUserId')
-        }
+        url: 'http://localhost:3000/api/1.0/users'
     }).then(function (data) {
         $scope.users = data.data;
     }, function (error) {
@@ -29,7 +25,7 @@ blog.controller('loginController', function ($scope, $http, $window) {
                 $scope.msg = "Post Data Submitted Successfully!"
                 sessionStorage.setItem('currentUserId', data.data._id);
                 sessionStorage.setItem('currentUserName', data.data.name);
-                $window.location = "index.html"
+                $window.location = "home.html"
             }
 
         }, function (error) {
@@ -43,7 +39,6 @@ blog.controller('loginController', function ($scope, $http, $window) {
 blog.controller('registrationController', function ($scope, $http, $window) {
 
     $scope.postdata = function () {
-
         $http({
             method: 'POST',
             url: 'http://localhost:3000/api/1.0/users',
@@ -51,9 +46,61 @@ blog.controller('registrationController', function ($scope, $http, $window) {
         }).then(function (data) {
             if (data.data) {
                 $scope.msg = "Post Data Submitted Successfully!"
-                console.log(data.data);
             }
             $window.location = "login.html"
+        }, function (error) {
+            console.log('Error: ' + error);
+        });
+    };
+});
+
+
+blog.controller("myPostsController", function ($scope, $http) {
+    $scope.formData = {};
+    const publisherId = sessionStorage.getItem('currentUserId');
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/api/1.0/users/' + publisherId + '/posts'
+    }).then(function (data) {
+        $scope.posts = data.data;
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
+});
+
+
+blog.controller("followeePostsController", function ($scope, $http) {
+    $scope.formData = {};
+    const userId = sessionStorage.getItem('currentUserId')
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/api/1.0/users/' + userId + '/followees/-/posts'
+    }).then(function (data) {
+        $scope.posts = data.data;
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
+});
+
+blog.controller('newPostController', function ($scope, $http, $window) {
+
+    $scope.postdata = function () {
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:3000/api/1.0/posts',
+            data: {
+                title: $scope.title,
+                text: $scope.text,
+                publisherId: sessionStorage.getItem('currentUserId'),
+                private: $scope.private
+            }
+        }).then(function (data) {
+            if (data.data) {
+                $scope.msg = "Post Data Submitted Successfully!"
+                $window.location = "myposts.html"
+            }
+
         }, function (error) {
             console.log('Error: ' + error);
         });
@@ -61,3 +108,57 @@ blog.controller('registrationController', function ($scope, $http, $window) {
     };
 
 });
+
+
+blog.controller("followeesController", function ($scope, $http, $window) {
+    $scope.formData = {};
+    const userId = sessionStorage.getItem('currentUserId');
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/api/1.0/users/' + userId + '/followees'
+    }).then(function (data) {
+        $scope.followees = data.data;
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
+
+    $scope.unfollow = function (followeeId) {
+        const userId = sessionStorage.getItem('currentUserId')
+        $http({
+            method: 'DELETE',
+            url: 'http://localhost:3000/api/1.0/users/' + userId + '/followees/' + followeeId
+        }).then(function (data) {
+            $window.location = "followees.html";
+        }, function (error) {
+            console.log('Error: ' + error);
+        });
+    };
+});
+
+blog.controller("otherUsersController", function ($scope, $http, $window) {
+    $scope.formData = {};
+    const userId = sessionStorage.getItem('currentUserId');
+    $http({
+        method: 'GET',
+        url: 'http://localhost:3000/api/1.0/users/' + userId + '/suggestions'
+    }).then(function (data) {
+        $scope.suggestions = data.data;
+    }, function (error) {
+        console.log('Error: ' + error);
+    });
+
+    $scope.follow = function (followeeId) {
+        const userId = sessionStorage.getItem('currentUserId')
+        $http({
+            method: 'PUT',
+            url: 'http://localhost:3000/api/1.0/users/' + userId + '/followees',
+            data: {followeeId: followeeId}
+        }).then(function (data) {
+            $window.location = "followees.html";
+        }, function (error) {
+            console.log('Error: ' + error);
+        });
+
+    };
+});
+
