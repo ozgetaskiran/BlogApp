@@ -37,26 +37,6 @@ exports.create = (req, res) => {
 
 };
 
-exports.list = (req, res) => {
-    User.find({/*_id : {$nin : [req.session.id]}*/}, function (err, data) {
-    }).then(data => {
-        if (!data) {
-            res.status(200).send({
-                message: "No users."
-            });
-        } else {
-            res.status(200).send(data);
-        }
-    }).catch(function (err) {
-        if (err) {
-            res.status(500).send({
-                message: err.message
-            });
-        }
-    });
-};
-
-
 // Add followee to the user indentified by userId in the request
 exports.addFollowee = (req, res) => {
     var followerId = req.params.userId;
@@ -208,7 +188,7 @@ exports.getFolloweePosts = (req, res) => {
                     for (l in followees) {
                         followeeIds.push(followees[l].followeeId);
                     }
-                    Post.find({'publisherId': {$in: followeeIds}, 'private': false}, function (err, posts) {
+                    Post.find({'publisherId': {$in: followeeIds}, 'private': {$in: true}}, function (err, posts) {
                         if (err) {
                             res.status(500).send({
                                 message: err.message
@@ -274,12 +254,12 @@ exports.getSuggestions = (req, res) => {
                 message: "No users."
             });
         } else {
-            var followeeIds = [];
+            var exceptedIds = [];
             for (l in followees) {
-                followeeIds.push(followees[l].followeeId);
+                exceptedIds.push(followees[l].followeeId);
             }
-
-            User.find({'_id': {$nin: followeeIds}}, function (err, users) {
+            exceptedIds.push(followerId);
+            User.find({'_id': {$nin: exceptedIds}}, function (err, users) {
                 if (err) {
                     res.status(500).send({
                         message: err.message

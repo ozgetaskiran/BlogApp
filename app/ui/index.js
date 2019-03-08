@@ -1,17 +1,5 @@
 var blog = angular.module("blog", []);
 
-blog.controller("mainController", function ($scope, $http) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        url: 'http://localhost:3000/api/1.0/users'
-    }).then(function (data) {
-        $scope.users = data.data;
-    }, function (error) {
-        console.log('Error: ' + error);
-    });
-});
-
 blog.controller('loginController', function ($scope, $http, $window) {
 
     $scope.postdata = function () {
@@ -37,7 +25,6 @@ blog.controller('loginController', function ($scope, $http, $window) {
 });
 
 blog.controller('registrationController', function ($scope, $http, $window) {
-
     $scope.postdata = function () {
         $http({
             method: 'POST',
@@ -93,6 +80,7 @@ blog.controller('newPostController', function ($scope, $http, $window) {
                 title: $scope.title,
                 text: $scope.text,
                 publisherId: sessionStorage.getItem('currentUserId'),
+                publisherName: sessionStorage.getItem('currentUserName'),
                 private: $scope.private
             }
         }).then(function (data) {
@@ -135,7 +123,7 @@ blog.controller("followeesController", function ($scope, $http, $window) {
     };
 });
 
-blog.controller("otherUsersController", function ($scope, $http, $window) {
+blog.controller("suggestionController", function ($scope, $http, $window) {
     $scope.formData = {};
     const userId = sessionStorage.getItem('currentUserId');
     $http({

@@ -1,17 +1,25 @@
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="./stylesheet/index.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="index.js"></script>
+    <title>My Blog App</title>
 </head>
-<body>
-<div ng-app="blog" ng-controller="registrationController">
-    <div>
-        <h1>Welcome to My Blog App</h1><br/>
-        Name: <input type="text" ng-model="name"> <br/>
-        Email: <input type="text" ng-model="email"> <br/>
-        Password: <input type="password" ng-model="password"><br/>
-        <input type="button" value="Register" ng-click="postdata()"/> <br/><br/>
+<body ng-app="blog" ng-controller="registrationController">
+<div>
+    <span class="header">Register in My Blog App!</span><br/>
+    <div class="liclass">
+        <div class="leftcol pad10">Name :</div>
+        <div class="rightcol pad10"><input type="text" ng-model="name"></div>
+        <div class="leftcol pad10">Email :</div>
+        <div class="rightcol pad10"><input type="text" ng-model="email"></div>
+        <div class="leftcol pad10">Password :</div>
+        <div class="rightcol pad10"><input type="password" ng-model="password"></div>
+        <div class="rightcol pad10">
+            <input type="button" value="Register" ng-click="postdata()"/> <br/><br/>
+        </div>
     </div>
 </div>
 </body>
+</html>

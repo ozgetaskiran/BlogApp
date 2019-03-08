@@ -5,7 +5,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 // Create a new post
 exports.create = (req, res) => {
-    if (!req.body.title || !req.body.text  || !req.body.publisherId) {
+    if (!req.body.title || !req.body.text || !req.body.publisherId) {
         return res.status(400).send({
             message: "Missing post information."
         });
@@ -28,7 +28,8 @@ exports.create = (req, res) => {
                     title: req.body.title,
                     text: req.body.text,
                     private: req.body.private,
-                    publisherId: req.body.publisherId
+                    publisherId: req.body.publisherId,
+                    publisherName: req.body.publisherName
                 });
 
                 post.save()
@@ -51,7 +52,7 @@ exports.list = (req, res) => {
             message: "Invalid publisher id."
         });
     }
-    
+
     if (!ObjectId.isValid(req.body.viewerId)) {
         return res.status(400).send({
             message: "Invalid viewer id."
@@ -87,7 +88,6 @@ exports.list = (req, res) => {
         }
     });
 };
-
 
 
 /*

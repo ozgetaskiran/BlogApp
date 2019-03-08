@@ -29,6 +29,7 @@
 .floatleft {
     float: left;
     margin-right: 10px;
+    display: inline;
 }
 
 .header {
@@ -44,27 +45,33 @@
 }
 
 .bold {
-    display: block;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12px;
     font-weight: 700;
-    height: 28px;
-    line-height: 28px;
-    white-space: nowrap;
 }
 
-.leftcol{
-    width:30%;
-    display:inline-block;
-    box-sizing:border-box;
-    text-align:right;
+.highrow {
+    line-height: 70px;
 }
 
-.rightcol{
+.midrow {
+    line-height: 50px;
+}
+
+.leftcol {
+    width: 30%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.rightcol {
     text-align:left;
-    padding-left:10px;
-    padding-top:10px;
     width:70%;
     display:inline-block;
     box-sizing:border-box;
+}
+
+.pad10{
+    padding-left:10px;
+    padding-top:10px;
 }

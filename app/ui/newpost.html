@@ -17,24 +17,26 @@
 <body ng-controller="newPostController">
 <div>
     <div class="floatleft">
-        <img class="imgclass" src="./img/profile.png">
+        <a href="home.html"><img class="imgclass" src="./img/profile.png"></a>
     </div>
     <div>
-        <span class="bold">Merhaba </span><a id="current-user" href="home.html" class="bold"></a><br/>
+        <span class="bold highrow">Merhaba </span><a id="current-user" href="home.html" class="bold"></a><br/>
     </div>
 </div>
 
 <div>
     <span class="header">New Post</span><br/>
-    <div class="ulclass">
-        <div class="leftcol">Title :</div><div class="rightcol"><input type="text" ng-model="title"></div>
-        <div class="leftcol">Content :</div><div class="rightcol"><textarea ng-model="text" cols="40" rows="5"></textarea></div>
-        <div class="leftcol">Is Private :</div><div class="rightcol"><input type="checkbox" ng-model="private"></div>
-        <div class="leftcol"></div><div class="rightcol">
+    <div class="liclass">
+        <div class="leftcol pad10">Title :</div>
+        <div class="rightcol pad10"><input type="text" ng-model="title"></div>
+        <div class="leftcol pad10">Content :</div>
+        <div class="rightcol pad10"><textarea ng-model="text" cols="40" rows="5"></textarea></div>
+        <div class="leftcol pad10"></div>
+        <div class="rightcol pad10"><input type="checkbox" ng-model="private">Is Private</div>
+        <div class="rightcol pad10">
             <input type="button" value="Publish" ng-click="postdata()"/> <br/>
         </div>
     </div>
-
 
 
 </div>

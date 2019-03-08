@@ -4,7 +4,8 @@ const PostSchema = mongoose.Schema({
     title: String,
     text: String,
     private: Boolean,
-    publisherId: String
+    publisherId: String,
+    publisherName: String
 }, {
     timestamps: true
 });

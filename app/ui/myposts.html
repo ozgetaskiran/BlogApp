@@ -18,14 +18,22 @@
 <div>
     <div>
         <div class="floatleft">
-            <img class="imgclass" src="./img/profile.png">
+            <a href="home.html"><img class="imgclass" src="./img/profile.png"></a>
         </div>
         <div>
-            <span class="bold">Merhaba </span><a id="current-user" href="home.html" class="bold"></a><br/>
+            <span class="bold midrow">Merhaba </span><a id="current-user" href="home.html" class="bold"></a><br/>
         </div>
     </div>
     <div>
-        <span class="header">My Posts</span>
+        <span class="header midrow">My Posts</span><br/>
+        <div>
+            <div class="floatleft">
+                <img class="imgclass" style="height: 25px; width: 25px;" src="./img/newpost.png">
+            </div>
+            <div>
+                <a href="newpost.html" class="bold">New Post</a>
+            </div>
+        </div>
         <ul class="ulclass">
             <li ng-repeat="post in posts" class="liclass">
                 <div class="clearfix">
@@ -41,14 +49,7 @@
             </li>
         </ul>
     </div>
-    <div>
-        <div class="floatleft">
-            <img class="imgclass" style="height: 25px; width: 25px;" src="./img/newpost.png">
-        </div>
-        <div>
-            <a href="newpost.html" class="bold">New Post</a>
-        </div>
-    </div>
+
 </div>
 </body>
 </html>
