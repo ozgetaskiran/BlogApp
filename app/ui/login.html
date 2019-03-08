@@ -4,6 +4,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="index.js"></script>
+
+    <script type='text/javascript'>
+        window.onload = function() {
+            sessionStorage.setItem('currentUserName','');
+        };
+    </script>
     <title>My Blog App</title>
 </head>
 <body ng-app="blog" ng-controller="loginController">
