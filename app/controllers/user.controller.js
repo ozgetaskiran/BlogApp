@@ -188,7 +188,7 @@ exports.getFolloweePosts = (req, res) => {
                     for (l in followees) {
                         followeeIds.push(followees[l].followeeId);
                     }
-                    Post.find({'publisherId': {$in: followeeIds}, 'private': {$in: true}}, function (err, posts) {
+                    Post.find({'publisherId': {$in: followeeIds}, 'private': {$nin: true}}, function (err, posts) {
                         if (err) {
                             res.status(500).send({
                                 message: err.message
