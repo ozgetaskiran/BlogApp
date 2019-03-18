@@ -46,6 +46,7 @@ exports.create = (req, res) => {
     });
 };
 
+//Lists posts
 exports.list = (req, res) => {
     if (!ObjectId.isValid(req.body.publisherId)) {
         return res.status(400).send({
@@ -88,54 +89,3 @@ exports.list = (req, res) => {
         }
     });
 };
-
-
-/*
-exports.list = (req, res) => {
-    console.log("000");
-    req.cookies
-    console.log(req.body.publisherId);
-    if (!ObjectId.isValid(req.body.publisherId)) {
-        return res.status(400).send({
-            message: "Invalid publisher id."
-        });
-    }
-    console.log("00");
-    if (!ObjectId.isValid(req.body.viewerId)) {
-        return res.status(400).send({
-            message: "Invalid viewer id."
-        });
-    }
-
-    User.findById(req.body.publisherId)
-        .then((user) => {
-            if (!user) {
-                res.status(404).send({
-                    message: "Publisher not found."
-                });
-            } else {
-                console.log("1");
-                Post.find({
-                    publisherId: req.body.publisherId,
-                    ...(req.body.publisherId != req.body.viewerId) ?  {private: false} :  null
-                }, function (err, data) {
-                }).then((data) => {
-                    if (!data) {
-                        res.status(404).send({
-                            message: "No posts."
-                        });
-                    } else {
-                        res.status(200).send(data);
-                    }
-                })
-
-            }
-        }).catch(function (error) {
-        if (error) {
-            res.status(500).send({
-                message: error.message
-            });
-        }
-    });
-};
-*/

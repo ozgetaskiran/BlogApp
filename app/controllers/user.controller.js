@@ -210,6 +210,7 @@ exports.getFolloweePosts = (req, res) => {
 
 };
 
+//get followees of the user identified by userId in the request
 exports.getFollowees = (req, res) => {
     var followerId = req.params.userId;
 
@@ -244,6 +245,7 @@ exports.getFollowees = (req, res) => {
     });
 };
 
+//get suggestions to follow for the user identified by userId in the request
 exports.getSuggestions = (req, res) => {
     var followerId = req.params.userId;
 
